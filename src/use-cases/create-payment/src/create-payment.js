@@ -1,53 +1,30 @@
+const buildGetPaymentRedirectHTMLPage = require("./get-payment-redirect-html-page")
+const buildGetPaymentUrl = require("./get-payment-ulr")
 
-const buildGetPaymentRedirectHTMLPage = require('./get-payment-redirect-html-page');
-const buildGetPaymentUrl = require('./get-payment-ulr');
+module.exports = function buildCreatePayment(getTokenApi) {
+  if (!getTokenApi) throw new Error("buildCreatePayment must have getTokenApi.")
 
+  return async function createPayment(invoice) {
+    const { status, token } = await getTokenApi({
+      Amount: invoice.getAmount(),
+      ResNum: invoice.getResNum(),
+      RedirectURL: invoice.getRedirectURL(),
+      CellNumber: invoice.getCellNumber(),
+      TxnRandomSessionKey: invoice.getTxnRandomSessionKey(),
+      TranType: invoice.getTranType(),
+      SettlementIbanInfo: invoice.getSettlementIbanInfo(),
+    })
 
-module.exports = function buildCreatePayment
-(
-    getTokenApi
-)
-    {
-        if
-        (
-            !getTokenApi
-        )
-            {
-                throw new Error('buildCreatePayment must have getTokenApi.');
-            }
+    const getPaymentRedirectHTMLPage = buildGetPaymentRedirectHTMLPage(token)
+    const getPaymentUrl = buildGetPaymentUrl(token)
 
-           
-        return async function createPayment
-        (
-            invoice
-        )
-            {
+    const result = Object.freeze({
+      getPaymentUrl: getPaymentUrl,
+      getPaymentRedirectHTMLPage: getPaymentRedirectHTMLPage,
+      getStatus: () => status,
+      getToken: () => token,
+    })
 
-                const { status, token } = await getTokenApi({
-                  Amount: invoice.getAmount(),
-                  ResNum: invoice.getResNum(),
-                  RedirectURL: invoice.getRedirectURL(),
-                  CellNumber: invoice.getCellNumber(),
-                  TxnRandomSessionKey: invoice.getTxnRandomSessionKey(),
-                  TranType: invoice.getTranType(),
-                  SettlementIbanInfo: invoice.getSettlementIbanInfo(),
-                })
-
-                const getPaymentRedirectHTMLPage = buildGetPaymentRedirectHTMLPage(token);
-
-                const getPaymentUrl = buildGetPaymentUrl(token);
-
-
-                const result = Object.freeze(
-                    {
-                        getPaymentUrl: getPaymentUrl,
-                        getPaymentRedirectHTMLPage: getPaymentRedirectHTMLPage,
-                        getStatus: ()=> status,
-                        getToken: ()=> token
-                    }
-                );
-
-                return result;
-
-            }
-    }
+    return result
+  }
+}

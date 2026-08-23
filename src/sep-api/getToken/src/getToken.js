@@ -5,21 +5,18 @@ module.exports = function buildGetToken({
   translateGetTokenResponse,
   SEP_TERMINAL_ID,
 }) {
-  if (!SEP_GET_TOKEN_PATH) {
+  if (!SEP_GET_TOKEN_PATH)
     throw new Error("buildGetToken must have SEP_GET_TOKEN_PATH.")
-  }
 
-  if (!httpClientPostInterceptor) {
+  if (!httpClientPostInterceptor)
     throw new Error("buildGetToken must have httpClientPostInterceptor.")
-  }
 
-  if (!createGetTokenRequest) {
+  if (!createGetTokenRequest)
     throw new Error("buildGetToken must have createGetTokenRequest.")
-  }
 
-  if (!translateGetTokenResponse) {
+  if (!translateGetTokenResponse)
     throw new Error("buildGetToken must have translateGetTokenResponse.")
-  }
+  
 
   return async function getToken({
     Amount,

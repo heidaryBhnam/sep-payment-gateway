@@ -8,19 +8,14 @@ module.exports = function createGetTokenRequest({
   TranType,
   SettlementIbanInfo,
 }) {
-  if (!Amount) {
-    throw new Error("createGetTokenRequest must have Amount.")
-  } else if (typeof Amount != "number") {
+  if (!Amount) throw new Error("createGetTokenRequest must have Amount.")
+  else if (typeof Amount != "number")
     throw new Error("createGetTokenRequest>Amount must have number.")
-  }
 
-  if (!ResNum) {
-    throw new Error("createGetTokenRequest must have ResNum.")
-  }
+  if (!ResNum) throw new Error("createGetTokenRequest must have ResNum.")
 
-  if (!RedirectURL) {
+  if (!RedirectURL)
     throw new Error("createGetTokenRequest must have RedirectURL.")
-  }
 
   let jsonData = {
     Action: "Token",
@@ -30,21 +25,16 @@ module.exports = function createGetTokenRequest({
     RedirectUrl: RedirectURL,
   }
 
-  if (CellNumber !== undefined) {
-    jsonData.CellNumber = CellNumber
-  }
+  if (CellNumber !== undefined) jsonData.CellNumber = CellNumber
 
-  if (TxnRandomSessionKey !== undefined) {
+  if (TxnRandomSessionKey !== undefined)
     jsonData.TxnRandomSessionKey = TxnRandomSessionKey
-  }
 
-  if (TranType !== undefined) {
-    jsonData.TranType = TranType
-  }
+  if (TranType !== undefined) jsonData.TranType = TranType
 
-  if (SettlementIbanInfo !== undefined) {
+  if (SettlementIbanInfo !== undefined)
     jsonData.SettlementIbanInfo = SettlementIbanInfo
-  }
+  
 
   return jsonData
 }

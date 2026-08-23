@@ -1,113 +1,44 @@
-module.exports = function buildGetDefaultHTTPPostMethod()
-    {
-        const https = require('https');
+module.exports = function buildGetDefaultHTTPPostMethod() {
+  const https = require("https")
 
-        if
-        (
-            !https
-        )
-            {
-                throw new Error(`Your node version doese'nt support https module. create a custome http post client method`);
-            }
+  if (!https)
+    throw new Error(
+      `Your node version doese'nt support https module. create a custome http post client method`,
+    )
 
-        return function getDefaultHTTPPostMethod()
-            {
-                return async function(
-                    {
-                        hostname,
-                        path,
-                        headers,
-                        body
-                    } 
-                )
-                    {
-                        if
-                        (
-                            !hostname
-                        )
-                            {
-                                throw new Error(`http post request must have hostname`);
-                            }
+  return function getDefaultHTTPPostMethod() {
+    return async function ({ hostname, path, headers, body }) {
+      if (!hostname) throw new Error(`http post request must have hostname`)
+      if (!path) throw new Error(`http post request must have path`)
+      if (!headers) throw new Error(`http post request must have headers`)
+      if (!body) throw new Error(`http post request must have body`)
 
-                        if
-                        (
-                            !path
-                        )
-                            {
-                                throw new Error(`http post request must have path`);
-                            }
+      const requestOptions = {
+        method: "POST",
+        headers: headers,
+        body: body,
+        hostname: hostname,
+        path: path,
+      }
 
-                        if
-                        (
-                            !headers
-                        )
-                            {
-                                throw new Error(`http post request must have headers`);
-                            }
+      return new Promise((resolve, reject) => {
+        const req = https.request(requestOptions, (res) => {
+          let data = ""
 
-                        if
-                        (
-                            !body
-                        )
-                            {
-                                throw new Error(`http post request must have body`);
-                            }
+          res.on("data", (chunk) => {
+            data += chunk
+          })
 
-                        const requestOptions = {
-                            method: 'POST',
-                            headers: headers,
-                            body: body,
-                            hostname: hostname,
-                            path: path
-                        };
+          res.on("end", () => {
+            const result = { headers: res.headers, data: data }
+            resolve(result)
+          })
+        })
 
-                        return new Promise(
-                            (
-                                resolve,
-                                reject
-                            )=>
-                                {
-                                    
-
-                                    const req = https.request
-                                    (
-                                        requestOptions,
-                                        res =>
-                                            {
- 
-                                                let data = '';
-
-                                                res.on(
-                                                    'data',
-                                                    (chunk) =>
-                                                        {
-                                                            data += chunk;
-                                                        }
-                                                );
-
-                                                res.on(
-                                                    'end',
-                                                    () =>
-                                                        {
-                                                            const result = {
-                                                                headers: res.headers,
-                                                                data:data
-                                                            }
-                                                            resolve(result);
-                                                        }
-                                                )
-                                            }
-                                    );
-
-                                    req.on('error',reject);
-
-                                    req.write(body);
-                                    
-                                    req.end();
-                                }
-                        )
-                    }
-                
-            }
-
+        req.on("error", reject)
+        req.write(body)
+        req.end()
+      })
     }
+  }
+}

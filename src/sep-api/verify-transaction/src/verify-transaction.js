@@ -5,34 +5,28 @@ module.exports = function buildVerifyTransaction({
   createVerifyTransactionRequest,
   translateVerifyTransactionResponse,
 }) {
-  if (!SEP_VERIFY_TRANSACTION_PATH) {
+  if (!SEP_VERIFY_TRANSACTION_PATH)
     throw new Error(
       "buildVerifyTransaction must have SEP_VERIFY_TRANSACTION_PATH.",
     )
-  }
 
-  if (!httpClientPostInterceptor) {
+  if (!httpClientPostInterceptor)
     throw new Error(
       "buildVerifyTransaction must have httpClientPostInterceptor.",
     )
-  }
 
-  if (!createVerifyTransactionRequest) {
+  if (!createVerifyTransactionRequest)
     throw new Error(
       "buildVerifyTransaction must have createVerifyTransactionRequest.",
     )
-  }
 
-  if (!translateVerifyTransactionResponse) {
+  if (!translateVerifyTransactionResponse)
     throw new Error(
       "buildVerifyTransaction must have translateVerifyTransactionResponse.",
     )
-  }
 
   return async function verifyTransaction(RefNum, TxnRandomSessionKey) {
-    if (!RefNum) {
-      throw new Error("verifyTransaction must have RefNum.")
-    }
+    if (!RefNum) throw new Error("verifyTransaction must have RefNum.")
 
     const verifyTransactionJsonData = createVerifyTransactionRequest({
       SEP_TERMINAL_ID: SEP_TERMINAL_ID,

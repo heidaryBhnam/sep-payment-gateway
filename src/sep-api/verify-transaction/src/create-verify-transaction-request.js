@@ -3,18 +3,14 @@ module.exports = function createVerifyTransactionRequest({
   RefNum,
   TxnRandomSessionKey,
 }) {
-  if (!RefNum) {
+  if (!RefNum)
     throw new Error("createVerifyTransactionRequest must have RefNum.")
-  }
 
-  const jsonData = {
-    terminalnumber: parseInt(SEP_TERMINAL_ID),
-    refnum: RefNum,
-  }
+  const jsonData = { terminalnumber: parseInt(SEP_TERMINAL_ID), refnum: RefNum }
 
-  if (TxnRandomSessionKey !== undefined) {
+  if (TxnRandomSessionKey !== undefined)
     jsonData.TxnRandomSessionKey = TxnRandomSessionKey
-  }
+  
 
   return jsonData
 }

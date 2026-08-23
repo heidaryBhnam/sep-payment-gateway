@@ -1,78 +1,44 @@
-module.exports = function buildReverseTransaction
-(
-    {
-        SEP_REVERSE_TRANSACTION_PATH,
-        httpClientPostInterceptor,
-        createReverseTransactionRequest,
-        translateReverseTransactionResponse
-    }
-)
-    {
-        if
-        (
-            !SEP_REVERSE_TRANSACTION_PATH
-        )
-            {
-                throw new Error('buildReverseTransaction must have SEP_REVERSE_TRANSACTION_PATH.');
-            }
-            
-        if
-        (
-            !httpClientPostInterceptor
-        )
-            {
-                throw new Error('buildReverseTransaction must have httpClientPostInterceptor.');
-            }
+module.exports = function buildReverseTransaction({
+  SEP_REVERSE_TRANSACTION_PATH,
+  httpClientPostInterceptor,
+  createReverseTransactionRequest,
+  translateReverseTransactionResponse,
+}) {
+  if (!SEP_REVERSE_TRANSACTION_PATH)
+    throw new Error(
+      "buildReverseTransaction must have SEP_REVERSE_TRANSACTION_PATH.",
+    )
 
-        if
-        (
-            !createReverseTransactionRequest
-        )
-            {
-                throw new Error('buildReverseTransaction must have createReverseTransactionRequest.');
-            }
+  if (!httpClientPostInterceptor)
+    throw new Error(
+      "buildReverseTransaction must have httpClientPostInterceptor.",
+    )
 
-        if
-        (
-            !translateReverseTransactionResponse
-        )
-            {
-                throw new Error('buildReverseTransaction must have translateReverseTransactionResponse.');
-            }
+  if (!createReverseTransactionRequest)
+    throw new Error(
+      "buildReverseTransaction must have createReverseTransactionRequest.",
+    )
 
-        return async function reverseTransaction
-        (
-            RefNum
-        )
-            {
+  if (!translateReverseTransactionResponse)
+    throw new Error(
+      "buildReverseTransaction must have translateReverseTransactionResponse.",
+    )
 
-                if
-                (
-                    !RefNum
-                )
-                    {
-                        throw new Error('reverseTransaction must have RefNum.');
-                    }
-                    
-                const reverseTransactionJsonData = createReverseTransactionRequest(RefNum);
+  return async function reverseTransaction(RefNum) {
+    if (!RefNum) throw new Error("reverseTransaction must have RefNum.")
 
+    const reverseTransactionJsonData = createReverseTransactionRequest(RefNum)
+    const { httpResponseJsonData, httpResponseHeaders } =
+      await httpClientPostInterceptor({
+        path: SEP_REVERSE_TRANSACTION_PATH,
+        jsonData: reverseTransactionJsonData,
+      })
 
-                const { httpResponseJsonData, httpResponseHeaders } = await httpClientPostInterceptor(
-                    {
-                        path: SEP_REVERSE_TRANSACTION_PATH,
-                        jsonData: reverseTransactionJsonData
-                    }
-                );
+    const result = translateReverseTransactionResponse({
+      headers: httpResponseHeaders,
+      jsonData: httpResponseJsonData,
+    })
 
-                const result = translateReverseTransactionResponse(
-                    {
-                        headers: httpResponseHeaders,
-                        jsonData: httpResponseJsonData
-                    }
-                );
-
-                return result;
-
-            }
-        
-    }
+    return result
+  }
+}

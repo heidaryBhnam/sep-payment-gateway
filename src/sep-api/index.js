@@ -8,7 +8,6 @@ const SEP_REVERSE_TRANSACTION_PATH =
 module.exports = function ({ customizedHTTPPostMethod, SEP_TERMINAL_ID }) {
   const httpClientPostInterceptor = require("./http-interceptor")({
     customizedHTTPPostMethod: customizedHTTPPostMethod,
-    SEP_TERMINAL_ID: SEP_TERMINAL_ID,
     SEP_HOST: SEP_HOST,
   })
 
