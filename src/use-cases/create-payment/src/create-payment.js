@@ -23,16 +23,15 @@ module.exports = function buildCreatePayment
         )
             {
 
-                const { status, token } = await getTokenApi(
-                    {
-                        Amount: invoice.getAmount(),
-                        ResNum: invoice.getResNum(),
-                        RedirectURL: invoice.getRedirectURL(),
-                        Wage: invoice.getWage(),
-                        CellNumber: invoice.getCellNumber(),
-                        TokenExpiryInMin:invoice.getTokenExpiryInMin()
-                    }
-                );
+                const { status, token } = await getTokenApi({
+                  Amount: invoice.getAmount(),
+                  ResNum: invoice.getResNum(),
+                  RedirectURL: invoice.getRedirectURL(),
+                  CellNumber: invoice.getCellNumber(),
+                  TxnRandomSessionKey: invoice.getTxnRandomSessionKey(),
+                  TranType: invoice.getTranType(),
+                  SettlementIbanInfo: invoice.getSettlementIbanInfo(),
+                })
 
                 const getPaymentRedirectHTMLPage = buildGetPaymentRedirectHTMLPage(token);
 

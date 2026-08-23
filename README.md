@@ -6,7 +6,7 @@
 <div align="center" style="font-family:'tahoma';">
   <strong>
   این ریپوزیتوری امکان اتصال به درگاه بانک سامان را ایجاد میکند.
-کدها با زبان جاواسکریپت پیاده سازی شده
+کدها با زبان جاواسکریپت پیاده سازی شده و برای TypeScript نیز type declaration دارد.
   </strong>
 </div>
 
@@ -16,7 +16,7 @@
 ---
 **برای مطالعه ی جزئیات پیاده سازی صفحه ی ویکی را مشاهده کنید**
 
-[https://github.com/mohsenxad/sep-payment-gateway/wiki](https://github.com/mohsenxad/sep-payment-gateway/wiki)
+[https://github.com/heidaryBhnam/sep-payment-gateway/wiki](https://github.com/heidaryBhnam/sep-payment-gateway/wiki)
 
 ---
 
@@ -63,6 +63,48 @@ const sepGateway = require('sep-payment-gatway')(
 );
 
 console.log(sepGateway);
+```
+
+</div>
+
+<div align="right">
+
+### ⚙️ استفاده در پروژه های TypeScript
+
+</div>
+
+<div align="left">
+
+تعریف های TypeScript به صورت خودکار از پکیج دریافت میشوند. برای استفاده از خروجی CommonJS پکیج، آن را به شکل زیر import کنید:
+
+```ts
+import createSepPaymentGateway = require('sep-payment-gatway');
+
+const sepGateway = createSepPaymentGateway({
+    SEP_TERMINAL_ID: process.env.SEP_TERMINAL_ID as string,
+});
+
+const invoice = sepGateway.makeInvoice({
+    Amount: 1000,
+    RedirectURL: 'https://<YOUR_SITE_HOST.IR>/<CALL_BACK_PATH>',
+    ResNum: `SEP_TEST_PAYMENT_${Math.floor(Math.random() * 999)}`,
+    TxnRandomSessionKey: 'SEP_RANDOM_SESSION_KEY',
+});
+
+async function pay(): Promise<void> {
+    const payment = await sepGateway.createPayment(invoice);
+
+    payment.getPaymentUrl();
+    payment.getPaymentRedirectHTMLPage();
+
+    const verification = await sepGateway.verifyPayment(
+        'REFERENCE_NUMBER',
+        'SEP_RANDOM_SESSION_KEY',
+    );
+    console.log(verification.getSuccess());
+}
+
+void pay();
 ```
 
 </div>
@@ -188,7 +230,7 @@ payment.getPaymentUrl();
 
 </div>
 
-[`sepGateway.verifyPayment`](https://github.com/mohsenxad/sep-payment-gateway/tree/c8a8608c48043daa0aba242145d889fcad931b57/src/use-cases/verify-payment)
+[`sepGateway.verifyPayment`](https://github.com/heidaryBhnam/sep-payment-gateway/tree/main/src/use-cases/verify-payment)
 
 <div align="left">
 
@@ -196,8 +238,9 @@ payment.getPaymentUrl();
 
 ```js
 const refNumber = 'REFRENCE_NUMBER_OF_PAYMENT_FROM_SEP';
+const txnRandomSessionKey = 'SEP_RANDOM_SESSION_KEY';
 
-sepGateway.verifyPayment(refNumber);
+sepGateway.verifyPayment(refNumber, txnRandomSessionKey);
 ```
 
 </div>
@@ -210,7 +253,7 @@ sepGateway.verifyPayment(refNumber);
 
 </div>
 
-[`sepGateway.reversePayment`](https://github.com/mohsenxad/sep-payment-gateway/tree/c8a8608c48043daa0aba242145d889fcad931b57/src/use-cases/verify-payment)
+[`sepGateway.reversePayment`](https://github.com/heidaryBhnam/sep-payment-gateway/tree/main/src/use-cases/reverse-payment)
 
 <div align="left">
 
@@ -289,12 +332,12 @@ sequenceDiagram
 
 ## 📦 Entites
 
-1. [`invoice`](https://github.com/mohsenxad/sep-payment-gateway/blob/c8a8608c48043daa0aba242145d889fcad931b57/src/entities/invoice.js)
+1. [`invoice`](https://github.com/heidaryBhnam/sep-payment-gateway/blob/main/src/entities/invoice.js)
 
 
 ## Maintainers
 
-- [mohsenXAD](https://github.com/mohsenxad)
+- [HeidariBehnam](https://github.com/heidaryBhnam)
 
 
 ## install jest

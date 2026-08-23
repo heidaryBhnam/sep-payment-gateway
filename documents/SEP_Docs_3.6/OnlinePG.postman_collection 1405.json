@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "9a78abb7-86cc-4222-a05a-0c6f63f393b0",
+		"name": "OnlinePG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTranscation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"terminalnumber\": اجباری,\n\"refnum\":\"اجباری\"\n\"TxnRandomSessionKey\":توکن دریافت در ارسالی پارامتر کردن چک جهت\n}"
+				},
+				"url": {
+					"raw": "https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTranscation",
+					"protocol": "https",
+					"host": [
+						"sep",
+						"shaparak",
+						"ir"
+					],
+					"path": [
+						"verifyTxnRandomSessionkey",
+						"ipg",
+						"VerifyTranscation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sep.shaparak.ir/OnlinePG/OnlinePG",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Action\": \"Token\",\r\n    \"TerminalId\": \"اجباری\",\r\n    \"RedirectUrl\": \"اجباری\",\r\n    \"ResNum\": \"اجباری\",\r\n    \"Amount\": اجباری,\r\n    \"CellNumber\": \"کاربر موبایل شماره \", \r\n    \"TxnRandomSessionKey\":اختیاری وریفای در ارسالی پارامتر کردن چک جهت,\r\n\r\n     \"TranType\":\"Government\"اختیاری - دولتی تراکنش جهت, \r\n    \"SettlementIbanInfo\":اختیاری\r\n     [ \r\n       { \r\n        \"IBAN\": \"شبا شماره\", \r\n        \"Amount\": 12000,\r\n       \"PurchaseId\": \"رقم 30 شناسه دولتی تراکنش جهت\" \r\n       } ,\r\n             { \r\n        \"IBAN\": \"شبا شماره\",\r\n        \"Amount\": 12000,\r\n       \"PurchaseId\": \"صفر رقم 30 دولتی غیر تراکنش صورت در \" \r\n       } \r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sep.shaparak.ir/onlinepg/OnlinePG",
+					"protocol": "https",
+					"host": [
+						"sep",
+						"shaparak",
+						"ir"
+					],
+					"path": [
+						"onlinepg",
+						"OnlinePG"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

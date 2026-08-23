@@ -13,17 +13,14 @@ module.exports = function
     {
         const getDefaultHTTPPostMethod = buildGetDefaultHTTPPostMethod();
 
-        const httpClientPost = getDefaultHTTPPostMethod();
+        let httpClientPost = getDefaultHTTPPostMethod()
 
-        if
-        (
-            customizedHTTPPostMethod
-        )
-            {
-                httpClientPost = customizedHTTPPostMethod
-            }
+        if (customizedHTTPPostMethod) {
+          httpClientPost = customizedHTTPPostMethod
+        }
 
-        const createHttpClientPostInterceptorOptions = buildCreateHttpClientPostInterceptorOptions(SEP_TERMINAL_ID)
+        const createHttpClientPostInterceptorOptions =
+          buildCreateHttpClientPostInterceptorOptions()
 
         const httpClientPostInterceptor = buildHttpClientPostInterceptor(
             {

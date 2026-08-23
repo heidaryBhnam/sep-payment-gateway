@@ -1,5 +1,76 @@
-describe('payment', () => {
-    it.todo('get token'),
-    it.todo('verify payment'),
-    it.todo('reverse payment')
+const createSepPaymentGateway = require("../index")
+
+describe("SEP 3.6 API contract", () => {
+  it("creates a token request using SEP 3.6 fields", async () => {
+    const requests = []
+    const gateway = createSepPaymentGateway({
+      SEP_TERMINAL_ID: "123456",
+      customizedHTTPPostMethod: async (request) => {
+        requests.push(request)
+        return {
+          headers: { "content-type": "application/json" },
+          data: JSON.stringify({ status: 1, token: "token-123" }),
+        }
+      },
+    })
+
+    const invoice = gateway.makeInvoice({
+      Amount: 1000,
+      ResNum: "RES-123",
+      RedirectURL: "https://example.com/callback",
+      CellNumber: "912222222",
+      TxnRandomSessionKey: "session-123",
+      TranType: "Government",
+    })
+
+    const payment = await gateway.createPayment(invoice)
+    const body = JSON.parse(requests[0].body)
+
+    expect(requests[0].path).toBe("/onlinepg/OnlinePG")
+    expect(body).toEqual({
+      Action: "Token",
+      TerminalId: "123456",
+      Amount: 1000,
+      ResNum: "RES-123",
+      RedirectUrl: "https://example.com/callback",
+      CellNumber: "912222222",
+      TxnRandomSessionKey: "session-123",
+      TranType: "Government",
+    })
+    expect(payment.getToken()).toBe("token-123")
+  })
+
+  it("creates a verify request using SEP 3.6 fields", async () => {
+    const requests = []
+    const gateway = createSepPaymentGateway({
+      SEP_TERMINAL_ID: "123456",
+      customizedHTTPPostMethod: async (request) => {
+        requests.push(request)
+        return {
+          headers: { "content-type": "application/json" },
+          data: JSON.stringify({
+            ResultCode: 0,
+            ResultDescription: "Success",
+            Success: true,
+            TransactionDetail: {},
+          }),
+        }
+      },
+    })
+
+    const result = await gateway.verifyPayment("REF-123", "session-123")
+    const body = JSON.parse(requests[0].body)
+
+    expect(requests[0].path).toBe(
+      "/verifyTxnRandomSessionkey/ipg/VerifyTranscation",
+    )
+    expect(body).toEqual({
+      terminalnumber: 123456,
+      refnum: "REF-123",
+      TxnRandomSessionKey: "session-123",
+    })
+    expect(result.getSuccess()).toBe(true)
+  })
+
+  it.todo("reverse payment")
 })
