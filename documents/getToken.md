@@ -1,5 +1,13 @@
 # ایجاد پرداخت
 
+## مشخصات درخواست
+
+|مورد|مقدار|
+|---|---|
+|روش|POST|
+|آدرس|`https://sep.shaparak.ir/onlinepg/OnlinePG`|
+|نوع محتوا|`application/json`|
+
 ## مقادیر ارسالی 
 
 |عنوان|نوع|الزامی|توضیحات|نمونه|
@@ -15,6 +23,31 @@
 |SettlementIbanInfo|array||اطلاعات تسویه شامل IBAN، مبلغ و PurchaseId|[{ IBAN, Amount, PurchaseId }]|
 
 ## مقادیر دریافتی
+
+### پاسخ موفق
+
+در پاسخ موفق، `status` برابر `1` است و token پرداخت در فیلد `token` برگردانده می‌شود:
+
+```json
+{
+	"status": 1,
+	"token": "PAYMENT_TOKEN"
+}
+```
+
+### پاسخ خطا
+
+در پاسخ خطا، `status` برابر `-1` است. کد و توضیح خطا در `errorCode` و `errorDesc` قرار دارند:
+
+```json
+{
+	"status": -1,
+	"errorCode": 100,
+	"errorDesc": "ERROR_DESCRIPTION"
+}
+```
+
+پس از دریافت token، از `payment.getPaymentUrl()` یا `payment.getPaymentRedirectHTMLPage()` برای ارسال کاربر به درگاه استفاده کنید. token را در لاگ یا پاسخ عمومی برنامه ذخیره و نمایش ندهید.
 
 ## نمونه استفاده در TypeScript
 
