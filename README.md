@@ -59,6 +59,7 @@ require('dotenv').config();
 const sepGateway = require('sep-payment-gateway-next')(
     {
         SEP_TERMINAL_ID: process.env.SEP_TERMINAL_ID,
+        isOnDevelop: process.env.NODE_ENV !== 'production',
     }
 );
 
@@ -82,6 +83,7 @@ import createSepPaymentGateway = require('sep-payment-gateway-next');
 
 const sepGateway = createSepPaymentGateway({
     SEP_TERMINAL_ID: process.env.SEP_TERMINAL_ID as string,
+    isOnDevelop: process.env.NODE_ENV !== 'production',
 });
 
 const invoice = sepGateway.makeInvoice({

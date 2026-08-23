@@ -1,4 +1,7 @@
-module.exports = function buildGetPaymentRedirectHTMLPage(token) {
+module.exports = function buildGetPaymentRedirectHTMLPage(
+  token,
+  SEP_HOST = "sep.shaparak.ir",
+) {
   if (!token) throw new Error("getPaymentRedirectHTMLPage must have token.")
 
   return function getPaymentRedirectHTMLPage() {
@@ -14,7 +17,7 @@ module.exports = function buildGetPaymentRedirectHTMLPage(token) {
       return entities[character]
     })
 
-    const htmlContent = `<form onload="document.forms['forms'].submit()" action="https://sep.shaparak.ir/OnlinePG/OnlinePG" method="post"><input type="hidden" name="Token" value="${escapedToken}" /><input name="GetMethod" type="text" value="true"></form>`
+    const htmlContent = `<form onload="document.forms['forms'].submit()" action="https://${SEP_HOST}/OnlinePG/OnlinePG" method="post"><input type="hidden" name="Token" value="${escapedToken}" /><input name="GetMethod" type="text" value="true"></form>`
 
     return htmlContent
   }

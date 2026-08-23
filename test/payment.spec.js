@@ -80,6 +80,36 @@ describe("SEP 3.6 API contract", () => {
     expect(result.getSuccess()).toBe(true)
   })
 
+  it("uses a configured SEP host for API requests and redirects", async () => {
+    const requests = []
+    const gateway = createSepPaymentGateway({
+      SEP_TERMINAL_ID: "123456",
+      isOnDevelop: true,
+      customizedHTTPPostMethod: async (request) => {
+        requests.push(request)
+        return {
+          headers: { "content-type": "application/json" },
+          data: JSON.stringify({ status: 1, token: "test-token" }),
+        }
+      },
+    })
+
+    const invoice = gateway.makeInvoice({
+      Amount: 1000,
+      ResNum: "RES-TEST",
+      RedirectURL: "https://example.com/callback",
+    })
+    const payment = await gateway.createPayment(invoice)
+
+    expect(requests[0].hostname).toBe("sep-test.shaparak.ir")
+    expect(payment.getPaymentUrl()).toBe(
+      "https://sep-test.shaparak.ir/OnlinePG/SendToken?token=test-token",
+    )
+    expect(payment.getPaymentRedirectHTMLPage()).toContain(
+      "https://sep-test.shaparak.ir/OnlinePG/OnlinePG",
+    )
+  })
+
   it.todo("reverse payment")
 
   it("rejects non-finite payment amounts", () => {

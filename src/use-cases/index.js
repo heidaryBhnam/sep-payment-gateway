@@ -1,10 +1,18 @@
-module.exports = function ({ customizedHTTPPostMethod, SEP_TERMINAL_ID }) {
+module.exports = function ({
+  customizedHTTPPostMethod,
+  SEP_TERMINAL_ID,
+  SEP_HOST,
+}) {
   const sepApiServices = require("../sep-api")({
     customizedHTTPPostMethod: customizedHTTPPostMethod,
     SEP_TERMINAL_ID: SEP_TERMINAL_ID,
+    SEP_HOST: SEP_HOST,
   })
 
-  const createPayment = require("./create-payment")(sepApiServices.getToken)
+  const createPayment = require("./create-payment")(
+    sepApiServices.getToken,
+    SEP_HOST,
+  )
 
   const verifyPayment = require("./verify-payment")(
     sepApiServices.verifyTransaction,

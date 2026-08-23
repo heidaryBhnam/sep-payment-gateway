@@ -1,14 +1,20 @@
-const SEP_HOST = "sep.shaparak.ir"
+const DEFAULT_SEP_HOST = "sep.shaparak.ir"
 const SEP_GET_TOKEN_PATH = "/onlinepg/OnlinePG"
 const SEP_VERIFY_TRANSACTION_PATH =
   "/verifyTxnRandomSessionkey/ipg/VerifyTranscation"
 const SEP_REVERSE_TRANSACTION_PATH =
   "/verifyTxnRandomSessionkey/ipg/ReverseTransaction"
 
-module.exports = function ({ customizedHTTPPostMethod, SEP_TERMINAL_ID }) {
+module.exports = function ({
+  customizedHTTPPostMethod,
+  SEP_TERMINAL_ID,
+  SEP_HOST,
+}) {
+  const sepHost = SEP_HOST || DEFAULT_SEP_HOST
+
   const httpClientPostInterceptor = require("./http-interceptor")({
     customizedHTTPPostMethod: customizedHTTPPostMethod,
-    SEP_HOST: SEP_HOST,
+    SEP_HOST: sepHost,
   })
 
   const getToken = require("./getToken")({

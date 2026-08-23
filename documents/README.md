@@ -26,6 +26,15 @@ const sepGateway = createSepPaymentGateway({
 });
 ```
 
+برای استفاده در محیط توسعه و تست، گزینه `isOnDevelop` را برابر `true` قرار دهید. در این حالت hostname سرویس تستی `sep-test.shaparak.ir` استفاده می شود؛ در حالت پیش فرض، hostname `sep.shaparak.ir` برای درخواست های API و آدرس انتقال پرداخت استفاده می شود:
+
+```ts
+const sepGateway = createSepPaymentGateway({
+	SEP_TERMINAL_ID: process.env.SEP_TEST_TERMINAL_ID as string,
+	isOnDevelop: true,
+});
+```
+
 متدهای `makeInvoice`، `createPayment`، `verifyPayment` و `reversePayment` دارای type هستند.
 
 در نسخه فعلی، token پرداخت در HTML به صورت امن escape و در URL encode می‌شود. درخواست‌های HTTPS داخلی دارای timeout ده ثانیه و محدودیت پاسخ یک مگابایت هستند؛ پاسخ JSON نامعتبر یا بدون `content-type` نیز رد می‌شود.

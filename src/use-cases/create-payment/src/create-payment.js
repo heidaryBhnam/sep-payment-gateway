@@ -1,7 +1,7 @@
 const buildGetPaymentRedirectHTMLPage = require("./get-payment-redirect-html-page")
 const buildGetPaymentUrl = require("./get-payment-ulr")
 
-module.exports = function buildCreatePayment(getTokenApi) {
+module.exports = function buildCreatePayment(getTokenApi, SEP_HOST) {
   if (!getTokenApi) throw new Error("buildCreatePayment must have getTokenApi.")
 
   return async function createPayment(invoice) {
@@ -15,8 +15,11 @@ module.exports = function buildCreatePayment(getTokenApi) {
       SettlementIbanInfo: invoice.getSettlementIbanInfo(),
     })
 
-    const getPaymentRedirectHTMLPage = buildGetPaymentRedirectHTMLPage(token)
-    const getPaymentUrl = buildGetPaymentUrl(token)
+    const getPaymentRedirectHTMLPage = buildGetPaymentRedirectHTMLPage(
+      token,
+      SEP_HOST,
+    )
+    const getPaymentUrl = buildGetPaymentUrl(token, SEP_HOST)
 
     const result = Object.freeze({
       getPaymentUrl: getPaymentUrl,

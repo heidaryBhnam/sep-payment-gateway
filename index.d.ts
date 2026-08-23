@@ -1,6 +1,8 @@
 export interface GatewayOptions {
-    SEP_TERMINAL_ID: string | number;
-    customizedHTTPPostMethod?: HTTPPostMethod;
+  SEP_TERMINAL_ID: string | number
+  customizedHTTPPostMethod?: HTTPPostMethod
+  /** Use SEP's test host instead of the production host. */
+  isOnDevelop?: boolean
 }
 
 export interface HTTPPostRequest {
