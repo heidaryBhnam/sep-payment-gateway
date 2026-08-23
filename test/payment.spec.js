@@ -1,4 +1,6 @@
 const createSepPaymentGateway = require("../index")
+const createGetTokenRequest = require("../src/sep-api/getToken/src/createGetTokenRequest")
+const translateHttpClientPostInterceptorResponse = require("../src/sep-api/http-interceptor/src/translate-http-client-post-interceptor-response")
 
 describe("SEP 3.6 API contract", () => {
   it("creates a token request using SEP 3.6 fields", async () => {
@@ -9,7 +11,7 @@ describe("SEP 3.6 API contract", () => {
         requests.push(request)
         return {
           headers: { "content-type": "application/json" },
-          data: JSON.stringify({ status: 1, token: "token-123" }),
+          data: JSON.stringify({ status: 1, token: "token&123" }),
         }
       },
     })
@@ -37,7 +39,13 @@ describe("SEP 3.6 API contract", () => {
       TxnRandomSessionKey: "session-123",
       TranType: "Government",
     })
-    expect(payment.getToken()).toBe("token-123")
+    expect(payment.getToken()).toBe("token&123")
+    expect(payment.getPaymentRedirectHTMLPage()).toContain(
+      'name="Token" value="token&amp;123"',
+    )
+    expect(payment.getPaymentUrl()).toBe(
+      "https://sep.shaparak.ir/OnlinePG/SendToken?token=token%26123",
+    )
   })
 
   it("creates a verify request using SEP 3.6 fields", async () => {
@@ -73,4 +81,35 @@ describe("SEP 3.6 API contract", () => {
   })
 
   it.todo("reverse payment")
+
+  it("rejects non-finite payment amounts", () => {
+    expect(() =>
+      createGetTokenRequest({
+        SEP_TERMINAL_ID: "123456",
+        Amount: Number.NaN,
+        ResNum: "RES-123",
+        RedirectURL: "https://example.com/callback",
+      }),
+    ).toThrow()
+
+    expect(() =>
+      createGetTokenRequest({
+        SEP_TERMINAL_ID: "123456",
+        Amount: Number.POSITIVE_INFINITY,
+        ResNum: "RES-123",
+        RedirectURL: "https://example.com/callback",
+      }),
+    ).toThrow()
+  })
+
+  it("rejects malformed JSON responses without exposing response data", async () => {
+    await expect(
+      translateHttpClientPostInterceptorResponse({
+        httpResponse: {
+          headers: { "content-type": "application/json" },
+          data: '{"token":"secret",',
+        },
+      }),
+    ).rejects.toThrow("received invalid JSON")
+  })
 })

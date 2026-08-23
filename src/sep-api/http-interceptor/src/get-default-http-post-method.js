@@ -1,5 +1,7 @@
 module.exports = function buildGetDefaultHTTPPostMethod() {
   const https = require("https")
+  const requestTimeoutMs = 10000
+  const maxResponseBytes = 1024 * 1024
 
   if (!https)
     throw new Error(
@@ -24,8 +26,16 @@ module.exports = function buildGetDefaultHTTPPostMethod() {
       return new Promise((resolve, reject) => {
         const req = https.request(requestOptions, (res) => {
           let data = ""
+          let responseBytes = 0
 
           res.on("data", (chunk) => {
+            responseBytes += Buffer.byteLength(chunk)
+
+            if (responseBytes > maxResponseBytes) {
+              req.destroy(new Error("HTTP response exceeds the allowed size."))
+              return
+            }
+
             data += chunk
           })
 
@@ -33,9 +43,14 @@ module.exports = function buildGetDefaultHTTPPostMethod() {
             const result = { headers: res.headers, data: data }
             resolve(result)
           })
+
+          res.on("error", reject)
         })
 
         req.on("error", reject)
+        req.setTimeout(requestTimeoutMs, () => {
+          req.destroy(new Error("HTTP request timed out."))
+        })
         req.write(body)
         req.end()
       })

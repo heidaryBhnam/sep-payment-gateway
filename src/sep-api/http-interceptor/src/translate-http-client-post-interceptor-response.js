@@ -10,21 +10,40 @@ module.exports = async function translateHttpClientPostInterceptorResponse({
       "translateHttpClientPostInterceptorResponse response must have headers.",
     )
 
-  const contentType = httpResponse.headers["content-type"]
+  const contentTypeHeader = httpResponse.headers["content-type"]
+  const contentType = Array.isArray(contentTypeHeader)
+    ? contentTypeHeader.join(",")
+    : contentTypeHeader
+
+  if (typeof contentType !== "string")
+    throw new Error(
+      "translateHttpClientPostInterceptorResponse response must have a valid content-type header.",
+    )
+
+  if (typeof httpResponse.data !== "string")
+    throw new Error(
+      "translateHttpClientPostInterceptorResponse response must have string data.",
+    )
 
   // check if the response is from SEP servers
-  if (contentType.includes("json")) {
-    const jsonData = JSON.parse(httpResponse.data)
+  if (contentType.toLowerCase().includes("json")) {
+    let jsonData
+
+    try {
+      jsonData = JSON.parse(httpResponse.data)
+    } catch {
+      throw new Error(
+        "translateHttpClientPostInterceptorResponse received invalid JSON.",
+      )
+    }
+
     const headers = httpResponse.headers
     const result = { headers: headers, jsonData: jsonData }
 
     return result
-  } else if (contentType.includes("text/html")) {
-    const textResponse = httpResponse.data
-    throw new Error(
-      `translateHttpClientPostInterceptorResponse Error | text response | ${textResponse}`,
-    )
-  } else
+  } else if (contentType.toLowerCase().includes("text/html"))
+    throw new Error("translateHttpClientPostInterceptorResponse received HTML.")
+  else
     throw new Error(
       `translateHttpClientPostInterceptorResponse Error | unknown content-type response | ${contentType}`,
     )

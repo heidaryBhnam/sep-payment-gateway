@@ -7,6 +7,7 @@
   <strong>
   این ریپوزیتوری امکان اتصال به درگاه بانک سامان را ایجاد میکند.
 کدها با زبان جاواسکریپت پیاده سازی شده و برای TypeScript نیز type declaration دارد.
+نسخه فعلی پکیج: `1.1.1`
   </strong>
 </div>
 
@@ -206,6 +207,8 @@ payment.getPaymentUrl();
 > - 🏴‍☠️اطلاعات دریافت شده روی آدرس callBack را به صورت درجا در بانک اطلاعاتی ذخیره کنید.
 > - 🏴‍☠️وضعیت پرداخت را در لحظه به حالت در حال پردازش ، در بانک اطلاعاتی  تغییر دهید.
 
+> برای امنیت بیشتر، token واقعی پرداخت در محتوای HTML استفاده و برای URL encode می‌شود. درخواست‌های HTTPS داخلی نیز timeout ده ثانیه‌ای و محدودیت پاسخ یک مگابایتی دارند.
+
 ---
 
 
@@ -242,6 +245,8 @@ sepGateway.verifyPayment(refNumber, txnRandomSessionKey);
 متد بازپرداخت بانک سامان
 
 </div>
+
+> توجه: endpoint برگشت تراکنش در مستندات بارگذاری‌شده SEP نسخه 3.6 تعریف نشده است و پیاده‌سازی فعلی آن بر اساس قرارداد قبلی باقی مانده است.
 
 [`sepGateway.reversePayment`](https://github.com/heidaryBhnam/sep-payment-gateway/tree/main/src/use-cases/reverse-payment)
 

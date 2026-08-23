@@ -9,7 +9,7 @@ module.exports = function createGetTokenRequest({
   SettlementIbanInfo,
 }) {
   if (!Amount) throw new Error("createGetTokenRequest must have Amount.")
-  else if (typeof Amount != "number")
+  else if (typeof Amount != "number" || !Number.isFinite(Amount))
     throw new Error("createGetTokenRequest>Amount must have number.")
 
   if (!ResNum) throw new Error("createGetTokenRequest must have ResNum.")

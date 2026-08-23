@@ -1,7 +1,7 @@
 {
   "name": "sep-payment-gateway-next",
-  "version": "1.0.18",
-  "description": "sep payment gatway",
+  "version": "1.1.1",
+  "description": "SEP payment gatway upgraded for Typescript",
   "main": "index.js",
   "types": "index.d.ts",
   "author": "HeidariBehnam <heidarybhnam@gmail.com> (https://github.com/heidaryBhnam)",

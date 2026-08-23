@@ -1,5 +1,7 @@
 # مستندات
 
+نسخه فعلی پکیج: `1.1.1`
+
 - [ایجاد پرداخت](getToken.md)
 - [تایید پرداخت](VerifyTransaction.md)
 - [اصلاح تراکنش](ReverseTransaction.md)
@@ -25,3 +27,5 @@ const sepGateway = createSepPaymentGateway({
 ```
 
 متدهای `makeInvoice`، `createPayment`، `verifyPayment` و `reversePayment` دارای type هستند.
+
+در نسخه فعلی، token پرداخت در HTML به صورت امن escape و در URL encode می‌شود. درخواست‌های HTTPS داخلی دارای timeout ده ثانیه و محدودیت پاسخ یک مگابایت هستند؛ پاسخ JSON نامعتبر یا بدون `content-type` نیز رد می‌شود.

@@ -13,7 +13,10 @@
 ## نمونه استفاده در TypeScript
 
 ```ts
-const result = await sepGateway.verifyPayment('REFERENCE_NUMBER');
+const result = await sepGateway.verifyPayment(
+	'REFERENCE_NUMBER',
+	'session-key',
+);
 
 const success: boolean = result.getSuccess();
 const resultCode: number = result.getResultCode();
