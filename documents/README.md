@@ -11,13 +11,13 @@
 پکیج شامل تعریف های TypeScript است و نیازی به نصب پکیج جداگانه برای type declaration نیست:
 
 ```bash
-npm install sep-payment-gatway
+npm install sep-payment-gateway-next
 ```
 
 به دلیل استفاده پکیج از خروجی CommonJS، gateway را به شکل زیر import کنید:
 
 ```ts
-import createSepPaymentGateway = require('sep-payment-gatway');
+import createSepPaymentGateway = require('sep-payment-gateway-next');
 
 const sepGateway = createSepPaymentGateway({
 	SEP_TERMINAL_ID: process.env.SEP_TERMINAL_ID as string,

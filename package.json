@@ -1,5 +1,5 @@
 {
-  "name": "sep-payment-gatway",
+  "name": "sep-payment-gateway-next",
   "version": "1.0.18",
   "description": "sep payment gatway",
   "main": "index.js",

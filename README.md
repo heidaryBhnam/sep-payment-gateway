@@ -14,9 +14,9 @@
 <div align="center" style="font-family:'tahoma';" >
 
 ---
-**برای مطالعه ی جزئیات پیاده سازی صفحه ی ویکی را مشاهده کنید**
+**برای مطالعه ی جزئیات پیاده سازی صفحه مستندات را مشاهده کنید**
 
-[https://github.com/heidaryBhnam/sep-payment-gateway/wiki](https://github.com/heidaryBhnam/sep-payment-gateway/wiki)
+[https://github.com/heidaryBhnam/sep-payment-gateway/tree/main/documents](مستندات ورژن 3.6)
 
 ---
 
@@ -32,7 +32,7 @@
 <div align="left">
 
 ```js
-npm i sep-payment-gatway -s
+npm i sep-payment-gateway-next -s
 ```
 
 </div>
@@ -56,7 +56,7 @@ npm i sep-payment-gatway -s
 ```js
 require('dotenv').config();
 
-const sepGateway = require('sep-payment-gatway')(
+const sepGateway = require('sep-payment-gateway-next')(
     {
         SEP_TERMINAL_ID: process.env.SEP_TERMINAL_ID,
     }
@@ -78,7 +78,7 @@ console.log(sepGateway);
 تعریف های TypeScript به صورت خودکار از پکیج دریافت میشوند. برای استفاده از خروجی CommonJS پکیج، آن را به شکل زیر import کنید:
 
 ```ts
-import createSepPaymentGateway = require('sep-payment-gatway');
+import createSepPaymentGateway = require('sep-payment-gateway-next');
 
 const sepGateway = createSepPaymentGateway({
     SEP_TERMINAL_ID: process.env.SEP_TERMINAL_ID as string,
@@ -206,15 +206,6 @@ payment.getPaymentUrl();
 > - 🏴‍☠️مراقب ارسال درخواست پشت سر هم در چند میلی ثانیه روی آدرس callBack باشید.
 > - 🏴‍☠️اطلاعات دریافت شده روی آدرس callBack را به صورت درجا در بانک اطلاعاتی ذخیره کنید.
 > - 🏴‍☠️وضعیت پرداخت را در لحظه به حالت در حال پردازش ، در بانک اطلاعاتی  تغییر دهید.
-
----
-
-<div align="center">
-
-**🏆 اگر متوجه خطرات این بخش نیستید با من مشورت کنید [mohsenXAD](https://t.me/MohsenXad)**
-
-
-</div>
 
 ---
 
