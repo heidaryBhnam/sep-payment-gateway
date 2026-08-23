@@ -15,8 +15,7 @@
 
 ---
 **برای مطالعه ی جزئیات پیاده سازی صفحه مستندات را مشاهده کنید**
-
-[https://github.com/heidaryBhnam/sep-payment-gateway/tree/main/documents](مستندات ورژن 3.6)
+[Documents 3.6](https://github.com/heidaryBhnam/sep-payment-gateway/tree/main/documents)
 
 ---
 
