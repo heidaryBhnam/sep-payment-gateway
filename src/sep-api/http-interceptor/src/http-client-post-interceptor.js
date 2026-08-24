@@ -3,7 +3,7 @@ const translateHttpClientPostInterceptorResponse = require("./translate-http-cli
 module.exports = function buildHttpClientPostInterceptor({
   httpClientPost,
   createHttpClientPostInterceptorOptions,
-  SEP_HOST,
+  SEP_BASE_URL,
 }) {
   if (!httpClientPost)
     throw new Error("buildHttpClientPostInterceptor must have httpClientPost.")
@@ -13,8 +13,10 @@ module.exports = function buildHttpClientPostInterceptor({
       "buildHttpClientPostInterceptor must have createHttpClientPostInterceptorOptions.",
     )
 
-  if (!SEP_HOST)
+  if (!SEP_BASE_URL)
     throw new Error("buildHttpClientPostInterceptor must have SEP_HOST.")
+
+  const sepBaseUrl = new URL(SEP_BASE_URL)
 
   return async function httpClientPostInterceptor({ path, jsonData }) {
     if (!path) throw new Error("httpClientPostInterceptor must have path.")
@@ -27,7 +29,9 @@ module.exports = function buildHttpClientPostInterceptor({
     })
 
     const httpResponse = await httpClientPost({
-      hostname: SEP_HOST,
+      hostname: sepBaseUrl.hostname,
+      port: sepBaseUrl.port || undefined,
+      protocol: sepBaseUrl.protocol,
       path: path,
       headers: headers,
       body: body,

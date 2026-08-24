@@ -101,12 +101,14 @@ describe("SEP 3.6 API contract", () => {
     })
     const payment = await gateway.createPayment(invoice)
 
-    expect(requests[0].hostname).toBe("sep-test.shaparak.ir")
+    expect(requests[0].hostname).toBe("127.0.0.1")
+    expect(requests[0].port).toBe("4100")
+    expect(requests[0].protocol).toBe("http:")
     expect(payment.getPaymentUrl()).toBe(
-      "https://sep-test.shaparak.ir/OnlinePG/SendToken?token=test-token",
+      "http://127.0.0.1:4100/OnlinePG/SendToken?token=test-token",
     )
     expect(payment.getPaymentRedirectHTMLPage()).toContain(
-      "https://sep-test.shaparak.ir/OnlinePG/OnlinePG",
+      "http://127.0.0.1:4100/OnlinePG/OnlinePG",
     )
   })
 

@@ -1,15 +1,19 @@
 export interface GatewayOptions {
   SEP_TERMINAL_ID: string | number
   customizedHTTPPostMethod?: HTTPPostMethod
-  /** Use SEP's test host instead of the production host. */
+  /** Use the local simulator at http://127.0.0.1:4100 instead of production. */
   isOnDevelop?: boolean
+  /** Override SEP's API and payment base URL, for example http://127.0.0.1:4100. */
+  SEP_BASE_URL?: string
 }
 
 export interface HTTPPostRequest {
-    hostname: string;
-    path: string;
-    headers: Record<string, string | number>;
-    body: string;
+  hostname: string
+  port?: string | number
+  protocol?: string
+  path: string
+  headers: Record<string, string | number>
+  body: string
 }
 
 export interface HTTPPostResponse {

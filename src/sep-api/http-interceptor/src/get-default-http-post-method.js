@@ -1,15 +1,16 @@
 module.exports = function buildGetDefaultHTTPPostMethod() {
+  const http = require("http")
   const https = require("https")
   const requestTimeoutMs = 10000
   const maxResponseBytes = 1024 * 1024
 
-  if (!https)
+  if (!http || !https)
     throw new Error(
       `Your node version doese'nt support https module. create a custome http post client method`,
     )
 
   return function getDefaultHTTPPostMethod() {
-    return async function ({ hostname, path, headers, body }) {
+    return async function ({ hostname, port, protocol, path, headers, body }) {
       if (!hostname) throw new Error(`http post request must have hostname`)
       if (!path) throw new Error(`http post request must have path`)
       if (!headers) throw new Error(`http post request must have headers`)
@@ -23,8 +24,12 @@ module.exports = function buildGetDefaultHTTPPostMethod() {
         path: path,
       }
 
+      if (port) requestOptions.port = port
+
+      const client = protocol === "http:" ? http : https
+
       return new Promise((resolve, reject) => {
-        const req = https.request(requestOptions, (res) => {
+        const req = client.request(requestOptions, (res) => {
           let data = ""
           let responseBytes = 0
 

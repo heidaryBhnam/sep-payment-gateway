@@ -8,13 +8,13 @@ const SEP_REVERSE_TRANSACTION_PATH =
 module.exports = function ({
   customizedHTTPPostMethod,
   SEP_TERMINAL_ID,
-  SEP_HOST,
+  SEP_BASE_URL,
 }) {
-  const sepHost = SEP_HOST || DEFAULT_SEP_HOST
+  const sepBaseUrl = SEP_BASE_URL || `https://${DEFAULT_SEP_HOST}`
 
   const httpClientPostInterceptor = require("./http-interceptor")({
     customizedHTTPPostMethod: customizedHTTPPostMethod,
-    SEP_HOST: sepHost,
+    SEP_BASE_URL: sepBaseUrl,
   })
 
   const getToken = require("./getToken")({

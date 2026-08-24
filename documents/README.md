@@ -1,10 +1,11 @@
 # مستندات
 
-نسخه فعلی پکیج: `1.1.1`
+نسخه فعلی پکیج: `2.0.0`
 
 - [ایجاد پرداخت](getToken.md)
 - [تایید پرداخت](VerifyTransaction.md)
 - [اصلاح تراکنش](ReverseTransaction.md)
+- [شبیه ساز محلی پرداخت](Simulator.md)
 
 > توجه: مجموعه مستندات SEP نسخه 3.6 موجود در این پوشه فقط درخواست های دریافت توکن و تایید تراکنش را تعریف میکند و درخواست اصلاح تراکنش در آن وجود ندارد. بنابراین `reversePayment` تا دریافت مستندات رسمی این endpoint به صورت جداگانه، با قرارداد قبلی باقی میماند.
 
@@ -26,12 +27,12 @@ const sepGateway = createSepPaymentGateway({
 });
 ```
 
-برای استفاده در محیط توسعه و تست، گزینه `isOnDevelop` را برابر `true` قرار دهید. در این حالت hostname سرویس تستی `sep-test.shaparak.ir` استفاده می شود؛ در حالت پیش فرض، hostname `sep.shaparak.ir` برای درخواست های API و آدرس انتقال پرداخت استفاده می شود:
+برای استفاده در محیط توسعه و تست، گزینه `isOnDevelop` به صورت پیش فرض از شبیه ساز محلی روی آدرس `http://127.0.0.1:4100` استفاده می کند. در صورت نیاز می توانید `SEP_BASE_URL` را روی آدرس دیگری قرار دهید:
 
 ```ts
 const sepGateway = createSepPaymentGateway({
 	SEP_TERMINAL_ID: process.env.SEP_TEST_TERMINAL_ID as string,
-	isOnDevelop: true,
+	SEP_BASE_URL: 'http://127.0.0.1:4100',
 });
 ```
 

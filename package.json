@@ -1,6 +1,6 @@
 {
   "name": "sep-payment-gateway-next",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "SEP payment gatway upgraded for Typescript",
   "main": "index.js",
   "types": "index.d.ts",
@@ -15,7 +15,9 @@
     "node": ">=18.14.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:integration": "jest test/simulator.spec.js --runInBand",
+    "simulator": "node simulator/server.js"
   },
   "keywords": [
     "payment-gateway",
