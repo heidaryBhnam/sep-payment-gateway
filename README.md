@@ -7,7 +7,7 @@
   <strong>
   این ریپوزیتوری امکان اتصال به درگاه بانک سامان را ایجاد میکند.
 کدها با زبان جاواسکریپت پیاده سازی شده و برای TypeScript نیز type declaration دارد.
-نسخه فعلی پکیج: `2.0.0`
+نسخه فعلی پکیج: `2.1.0`
   </strong>
 </div>
 
@@ -18,10 +18,24 @@
 **برای مطالعه ی جزئیات پیاده سازی صفحه مستندات را مشاهده کنید**
 [Documents 3.6](https://github.com/heidaryBhnam/sep-payment-gateway/tree/main/documents)
 
-برای تست محلی بدون اتصال به سرویس SEP، شبیه ساز پرداخت را با دستور زیر اجرا کنید. وقتی `isOnDevelop` برابر `true` باشد، gateway به صورت پیش فرض از `http://127.0.0.1:4100` استفاده می کند. مقدار `SEP_BASE_URL` برای انتخاب آدرس دیگری قابل استفاده است:
+برای تست محلی بدون اتصال به سرویس SEP، شبیه ساز پرداخت را اجرا کنید. دستور `npm run simulator` فقط برای اجرای شبیه ساز در ریشه همین repository است. وقتی `isOnDevelop` برابر `true` باشد، gateway به صورت پیش فرض از `http://127.0.0.1:4100` استفاده می کند. مقدار `SEP_BASE_URL` برای انتخاب آدرس دیگری قابل استفاده است:
 
 ```bash
 npm run simulator
+```
+
+پس از نصب پکیج در پروژه خود، از CLI منتشرشده استفاده کنید:
+
+```bash
+npx sep-payment-gateway-simulator
+```
+
+همچنین می توانید آن را به script پروژه خود اضافه کنید:
+
+```json
+"scripts": {
+    "simulator": "sep-payment-gateway-simulator"
+}
 ```
 
 راهنمای سناریوهای شبیه ساز در [documents/Simulator.md](documents/Simulator.md) قرار دارد.

@@ -1,9 +1,12 @@
 {
   "name": "sep-payment-gateway-next",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "SEP payment gatway upgraded for Typescript",
   "main": "index.js",
   "types": "index.d.ts",
+  "bin": {
+    "sep-payment-gateway-simulator": "./simulator/cli.js"
+  },
   "author": "HeidariBehnam <heidarybhnam@gmail.com> (https://github.com/heidaryBhnam)",
   "license": "MIT",
   "homepage": "https://github.com/heidaryBhnam/sep-payment-gateway#readme",

@@ -5,11 +5,29 @@
 
 ## اجرا
 
+### داخل repository
+
 در ریشه پروژه اجرا کنید:
 
 ```bash
 npm run simulator
 ```
+
+این دستور برای توسعه داخل repository پکیج است. اگر پکیج را از npm نصب کرده اید، CLI منتشرشده را اجرا کنید:
+
+```bash
+npx sep-payment-gateway-simulator
+```
+
+یا در `package.json` پروژه خود script زیر را اضافه کنید:
+
+```json
+"scripts": {
+  "simulator": "sep-payment-gateway-simulator"
+}
+```
+
+`npm exec sep-payment-gateway-simulator` و `node_modules/.bin/sep-payment-gateway-simulator` نیز قابل استفاده هستند.
 
 آدرس پیش فرض شبیه ساز `http://127.0.0.1:4100` است. برای تغییر پورت:
 
